@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework import status
-# from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from user_app.api.serializers import RegistrationSerializer
 from user_app import models
@@ -13,7 +13,7 @@ def logout_view(request):
 
     if request.method == 'POST':
         request.user.auth_token.delete()
-        return Response(status=status.HTTP_200_OK)
+        return Response({'detail': 'User has been logged out.'}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST',])
@@ -42,5 +42,6 @@ def registration_view(request):
        
         else:
             data = serializer.errors
+            print(data)
         
         return Response(data, status=status.HTTP_201_CREATED)
